@@ -1,1 +1,29 @@
-
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mainlb
+  namespace: three-tier
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+spec:
+  ingressClassName: alb
+  rules:
+    - host: k8s-threetie-mainlb-73c240e86c-2127210129.us-east-1.elb.amazonaws.com
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:   
+                  number: 3500
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port: 
+                  number: 3000
