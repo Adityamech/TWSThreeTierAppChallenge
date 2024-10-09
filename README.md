@@ -177,7 +177,7 @@ kubectl exec -it [mongodb pod name] -n three-tier -- /bin/sh
 ### Cleanup
 - To delete the EKS cluster:
 ``` shell
-eksctl delete cluster --name three-tier-cluster --region us-west-2
+eksctl delete cluster --name three-tier-cluster --region us-east-1
 ```
 
 ---
