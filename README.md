@@ -74,7 +74,7 @@ docker run -d -p 3500:3500 three-tier-backend:latest
 docker logs [CONTAINER ID]
 ```
 
-### Installing AWS CLI, Docker, kubectl, eksctl, and other dependencies: Run installation commands directly on the machine or EC2 instance where you'll be deploying the app. These installations are not part of the project code repository.
+**Installing AWS CLI, Docker, kubectl, eksctl, and other dependencies: Run installation commands directly on the machine or EC2 instance where you'll be deploying the app. These installations are not part of the project code repository.**
 
 ### Step 5: Install kubectl
 ``` shell
@@ -98,7 +98,7 @@ aws eks update-kubeconfig --region us-east-1 --name three-tier-cluster
 kubectl get nodes
 ```
 
-### In the Manifest folder, create .yaml manifest files such as the Deployment, Service, Secret, Persistent Volume (PV), Persistent Volume Claim (PVC), and Ingress files for the Frontend, Backend, and MongoDB components. Apply each manifest using kubectl.
+**In the Manifest folder, create .yaml manifest files such as the Deployment, Service, Secret, Persistent Volume (PV), Persistent Volume Claim (PVC), and Ingress files for the Frontend, Backend, and MongoDB components. Apply each manifest using kubectl.**
 ### Step 8: Run Manifests
 ``` shell
 kubectl create namespace three-tier
@@ -159,7 +159,7 @@ helm list -a -A
 
 ```
 
-### Check the AWS Host Address by retrieving the external IP or DNS for the Load Balancer associated with your EKS cluster. Once obtained, update this address in the frontend-deployment.yml file and the full_stack_lb.yaml Ingress file to ensure proper routing and connectivity. This step is crucial for directing frontend traffic to the correct AWS endpoint.
+**Check the AWS Host Address by retrieving the external IP or DNS for the Load Balancer associated with your EKS cluster. Once obtained, update this address in the frontend-deployment.yml file and the full_stack_lb.yaml Ingress file to ensure proper routing and connectivity. This step is crucial for directing frontend traffic to the correct AWS endpoint.**
 ``` shell
 kubectl apply -f full_stack_lb.yaml
 kubectl get ingress mainlb -n three-tier
