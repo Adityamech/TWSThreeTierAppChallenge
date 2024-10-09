@@ -5,7 +5,7 @@ This documentation provides detailed steps for deploying a Three-Tier Web Applic
 
 **Here is the Infrastructure**
 
-[]
+...
 
 ### Application Code
 Contains the frontend and backend implementations.
