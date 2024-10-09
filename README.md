@@ -1,62 +1,37 @@
-# #TWSThreeTierAppChallenge
+# #Three-Tier Web Application Challenge Documentation
 
-## Overview
-This repository hosts the `#TWSThreeTierAppChallenge` for the TWS community. 
-The challenge involves deploying a Three-Tier Web Application using ReactJS, NodeJS, and MongoDB, with deployment on AWS EKS. Participants are encouraged to deploy the application, add creative enhancements, and submit a Pull Request (PR). Merged PRs will earn exciting prizes!
+## Overview 
+This documentation provides detailed steps for deploying a Three-Tier Web Application using ReactJS, NodeJS, and MongoDB on AWS EKS (Elastic Kubernetes Service) for the #TWSThreeTierAppChallenge. It includes setting up an EKS cluster, using private ECR repositories for image management, and employing AWS CLI and Helm for infrastructure management.
+**Here is the Infrastructure**
 
-**Get The Challenge here**
-
-[![YouTube Video](https://img.youtube.com/vi/tvWQRTbMS1g/maxresdefault.jpg)](https://youtu.be/tvWQRTbMS1g?si=eki-boMemxr4PU7-)
-
-## Prerequisites
-- Basic knowledge of Docker, and AWS services.
-- An AWS account with necessary permissions.
-
-## Challenge Steps
-- [Application Code](#application-code)
-- [Jenkins Pipeline Code](#jenkins-pipeline-code)
-- [Jenkins Server Terraform](#jenkins-server-terraform)
-- [Kubernetes Manifests Files](#kubernetes-manifests-files)
-- [Project Details](#project-details)
+[]
 
 ## Application Code
-The `Application-Code` directory contains the source code for the Three-Tier Web Application. Dive into this directory to explore the frontend and backend implementations.
-
-## Jenkins Pipeline Code
-In the `Jenkins-Pipeline-Code` directory, you'll find Jenkins pipeline scripts. These scripts automate the CI/CD process, ensuring smooth integration and deployment of your application.
-
-## Jenkins Server Terraform
-Explore the `Jenkins-Server-TF` directory to find Terraform scripts for setting up the Jenkins Server on AWS. These scripts simplify the infrastructure provisioning process.
+Contains the frontend and backend implementations.
 
 ## Kubernetes Manifests Files
-The `Kubernetes-Manifests-Files` directory holds Kubernetes manifests for deploying your application on AWS EKS. Understand and customize these files to suit your project needs.
+Customizable files for deploying the app on AWS EKS.
 
-## Project Details
-🛠️ **Tools Explored:**
-- Terraform & AWS CLI for AWS infrastructure
-- Jenkins, Sonarqube, Terraform, Kubectl, and more for CI/CD setup
-- Helm, Prometheus, and Grafana for Monitoring
-- ArgoCD for GitOps practices
+## High-Level Overview
+IAM user setup, EKS Cluster, and Load Balancer configuration for seamless routing.
 
-🚢 **High-Level Overview:**
-- IAM User setup & Terraform magic on AWS
-- Jenkins deployment with AWS integration
-- EKS Cluster creation & Load Balancer configuration
-- Private ECR repositories for secure image management
-- Helm charts for efficient monitoring setup
-- GitOps with ArgoCD - the cherry on top!
+## Deployment Highlights & Project Details
+**Infrastructure Setup:**
+- Configures IAM, EC2, ECR, and EKS for secure and scalable hosting.
+  
+**Docker Images:**
+- Builds and pushes frontend and backend images to AWS ECR.
+  
+**Cluster & Networking:**
+- Creates a three-tier cluster with Kubernetes manifest files and deploys AWS Load Balancer Controller.
 
-📈 **The journey covered everything from setting up tools to deploying a Three-Tier app, ensuring data persistence, and implementing CI/CD pipelines.**
-
-## Getting Started
-To get started with this project, refer to our [comprehensive guide](https://amanpathakdevops.medium.com/advanced-end-to-end-devsecops-kubernetes-three-tier-project-using-aws-eks-argocd-prometheus-fbbfdb956d1a) that walks you through IAM user setup, infrastructure provisioning, CI/CD pipeline configuration, EKS cluster creation, and more.
-
+***Let's Start,***
 ### Step 1: IAM Configuration
 - Create a user `eks-admin` with `AdministratorAccess`.
 - Generate Security Credentials: Access Key and Secret Access Key.
 
 ### Step 2: EC2 Setup
-- Launch an Ubuntu instance in your favourite region (eg. region `us-west-2`).
+- Launch an Ubuntu instance in the region `us-east-1`.
 - SSH into the instance from your local machine.
 
 ### Step 3: Install AWS CLI v2
@@ -65,20 +40,41 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 sudo apt install unzip
 unzip awscliv2.zip
 sudo ./aws/install -i /usr/local/aws-cli -b /usr/local/bin --update
-aws configure
+aws configure      #AWS Access Key ID & Secret Access Key [IAM]
 ```
 
 ### Step 4: Install Docker
 ``` shell
+aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin 
 sudo apt-get update
 sudo apt install docker.io
 docker ps
 sudo chown $USER /var/run/docker.sock
 ```
 
+### Step 4: Create Docker images on ECR
+For Frontend:
+``` shell
+docker build -t three-tier-frontend .
+docker tag three-tier-frontend:latest public.ecr.aws/z4u5w8e4/three-tier-frontend:latest
+docker push public.ecr.aws/z4u5w8e4/three-tier-frontend:latest
+docker run -d -p 3000:3000 three-tier-frontend:latest
+docker logs [CONTAINER ID]
+```
+For Backend:
+``` shell
+docker build -t three-tier-backend .
+docker tag three-tier-backend:latest public.ecr.aws/z4u5w8e4/three-tier-backend:latest
+docker push public.ecr.aws/z4u5w8e4/three-tier-backend:latest
+docker run -d -p 3500:3500 three-tier-backend:latest
+docker logs [CONTAINER ID]
+```
+
+### Installing AWS CLI, Docker, kubectl, eksctl, and other dependencies: Run installation commands directly on the machine or EC2 instance where you'll be deploying the app. These installations are not part of the project code repository.
+
 ### Step 5: Install kubectl
 ``` shell
-curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
+curl -o kubectl https://amazon-eks.s3.us-east-1.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
 chmod +x ./kubectl
 sudo mv ./kubectl /usr/local/bin
 kubectl version --short --client
@@ -93,24 +89,43 @@ eksctl version
 
 ### Step 7: Setup EKS Cluster
 ``` shell
-eksctl create cluster --name three-tier-cluster --region us-west-2 --node-type t2.medium --nodes-min 2 --nodes-max 2
-aws eks update-kubeconfig --region us-west-2 --name three-tier-cluster
+eksctl create cluster --name three-tier-cluster --region us-east-1 --node-type t2.medium --nodes-min 2 --nodes-max 2
+aws eks update-kubeconfig --region us-east-1 --name three-tier-cluster
 kubectl get nodes
 ```
 
+### In the Manifest folder, create .yaml manifest files such as the Deployment, Service, Secret, Persistent Volume (PV), Persistent Volume Claim (PVC), and Ingress files for the Frontend, Backend, and MongoDB components. Apply each manifest using kubectl.
 ### Step 8: Run Manifests
 ``` shell
-kubectl create namespace workshop
+kubectl create namespace three-tier
 kubectl apply -f .
 kubectl delete -f .
+kubectl get all
+kubectl get pods -n three-tier
+kubectl describe pod [pod name] -n three-tier
+kubectl get deployment -n three-tier
+
+# After the following steps:
+kubectl apply -f service.yaml
+apply -f backend-deployment.yaml
+apply -f backend-service.yaml
+kubectl get pods -n three-tier
+kubectl logs [pod name] -n three-tier
+```
+
+#### Encode Decode command for Secret .yaml file:
+``` shell
+echo "admin" | base64 --encode
+echo "cGFzc3dvcmQxMjM=" | base64 --decode
 ```
 
 ### Step 9: Install AWS Load Balancer
 ``` shell
-curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
-aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
-eksctl utils associate-iam-oidc-provider --region=us-west-2 --cluster=three-tier-cluster --approve
-eksctl create iamserviceaccount --cluster=three-tier-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::626072240565:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=us-west-2
+curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam-policy.json
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document
+file://iam_policy.json
+eksctl utils associate-iam-oidc-provider --region=us-east-1 --cluster=three-tier-cluster --approve
+eksctl create iamserviceaccount --cluster=three-tier-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::[Account ID]:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=us-east-1
 ```
 
 ### Step 10: Deploy AWS Load Balancer Controller
@@ -118,9 +133,41 @@ eksctl create iamserviceaccount --cluster=three-tier-cluster --namespace=kube-sy
 sudo snap install helm --classic
 helm repo add eks https://aws.github.io/eks-charts
 helm repo update eks
-helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+  --set clusterName=three-tier-cluster \
+  --set serviceAccount.create=false \
+  --set serviceAccount.name=aws-load-balancer-controller \
+  -n kube-system
+
 kubectl get deployment -n kube-system aws-load-balancer-controller
+kubectl logs -n kube-system deployment/aws-load-balancer-controller
+
+helm status aws-load-balancer-controller -n kube-system
+helm uninstall aws-load-balancer-controller -n kube-system
+kubectl delete serviceaccount aws-load-balancer-controller[name] -n kube-system
+kubectl get serviceaccounts -n kube-system
+kubectl get events -n kube-system
+kubectl get pods -A
+kubectl get pods -n kube-system
+kubectl get pod -n three-tier
+kubectl get nodes
+helm list -a -A 
+
+```
+
+### Check the AWS Host Address by retrieving the external IP or DNS for the Load Balancer associated with your EKS cluster. Once obtained, update this address in the frontend-deployment.yml file and the full_stack_lb.yaml Ingress file to ensure proper routing and connectivity. This step is crucial for directing frontend traffic to the correct AWS endpoint.
+``` shell
+kubectl get ingress mainlb -n three-tier
 kubectl apply -f full_stack_lb.yaml
+```
+
+### To verify that data is correctly reaching the database, run the following command:
+``` shell
+kubectl exec -it [mongodb pod name] -n three-tier -- /bin/sh
+- mongo
+- show dbs
+- use [name(todo)]
+- exit
 ```
 
 ### Cleanup
@@ -129,17 +176,5 @@ kubectl apply -f full_stack_lb.yaml
 eksctl delete cluster --name three-tier-cluster --region us-west-2
 ```
 
-## Contribution Guidelines
-- Fork the repository and create your feature branch.
-- Deploy the application, adding your creative enhancements.
-- Ensure your code adheres to the project's style and contribution guidelines.
-- Submit a Pull Request with a detailed description of your changes.
-
-## Rewards
-- Successful PR merges will be eligible for exciting prizes!
-
-## Support
-For any queries or issues, please open an issue in the repository.
-
 ---
-Happy Learning! 🚀👨‍💻👩‍💻
+Successfully Completed! 🚀👨‍💻
