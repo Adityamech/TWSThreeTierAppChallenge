@@ -165,7 +165,7 @@ kubectl apply -f full_stack_lb.yaml
 kubectl get ingress mainlb -n three-tier
 ```
 
-### To verify that data is correctly reaching the database, run the following command:
+#### To verify that data is correctly reaching the database, run the following command:
 ``` shell
 kubectl exec -it [mongodb pod name] -n three-tier -- /bin/sh
 - mongo
