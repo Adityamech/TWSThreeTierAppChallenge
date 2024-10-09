@@ -161,8 +161,8 @@ helm list -a -A
 
 #### Check the AWS Host Address by retrieving the external IP or DNS for the Load Balancer associated with your EKS cluster. Once obtained, update this address in the frontend-deployment.yml file and the full_stack_lb.yaml Ingress file to ensure proper routing and connectivity. This step is crucial for directing frontend traffic to the correct AWS endpoint.
 ``` shell
-kubectl apply -f full_stack_lb.yaml
 kubectl get ingress mainlb -n three-tier
+kubectl apply -f full_stack_lb.yaml
 ```
 
 #### To verify that data is correctly reaching the database, run the following command:
