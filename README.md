@@ -2,18 +2,20 @@
 
 ## Overview 
 This documentation provides detailed steps for deploying a Three-Tier Web Application using ReactJS, NodeJS, and MongoDB on AWS EKS (Elastic Kubernetes Service) for the #TWSThreeTierAppChallenge. It includes setting up an EKS cluster, using private ECR repositories for image management, and employing AWS CLI and Helm for infrastructure management.
+
 **Here is the Infrastructure**
 
 []
 
-## Application Code
+### Application Code
 Contains the frontend and backend implementations.
 
-## Kubernetes Manifests Files
+### Kubernetes Manifests Files
 Customizable files for deploying the app on AWS EKS.
 
-## High-Level Overview
+### High-Level Overview
 IAM user setup, EKS Cluster, and Load Balancer configuration for seamless routing.
+
 
 ## Deployment Highlights & Project Details
 **Infrastructure Setup:**
@@ -24,6 +26,8 @@ IAM user setup, EKS Cluster, and Load Balancer configuration for seamless routin
   
 **Cluster & Networking:**
 - Creates a three-tier cluster with Kubernetes manifest files and deploys AWS Load Balancer Controller.
+
+
 
 ***Let's Start,***
 ### Step 1: IAM Configuration
@@ -157,8 +161,8 @@ helm list -a -A
 
 ### Check the AWS Host Address by retrieving the external IP or DNS for the Load Balancer associated with your EKS cluster. Once obtained, update this address in the frontend-deployment.yml file and the full_stack_lb.yaml Ingress file to ensure proper routing and connectivity. This step is crucial for directing frontend traffic to the correct AWS endpoint.
 ``` shell
-kubectl get ingress mainlb -n three-tier
 kubectl apply -f full_stack_lb.yaml
+kubectl get ingress mainlb -n three-tier
 ```
 
 ### To verify that data is correctly reaching the database, run the following command:
