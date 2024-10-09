@@ -6,14 +6,11 @@ This documentation provides detailed steps for deploying a Three-Tier Web Applic
 **Here is the Infrastructure**
 ![Alt text](Application-Code/Assets/Infrastructure.png)
 
-### Application Code
-Contains the frontend and backend implementations.
+**Application Code: Contains the frontend and backend implementations.**
 
-### Kubernetes Manifests Files
-Customizable files for deploying the app on AWS EKS.
+**Kubernetes Manifests: Customizable files for deploying the app on AWS EKS.**
 
-### High-Level Overview
-IAM user setup, EKS Cluster, and Load Balancer configuration for seamless routing.
+**High-Level Overview: IAM user setup, EKS Cluster, and Load Balancer configuration for seamless routing.**
 
 
 ## Deployment Highlights & Project Details
