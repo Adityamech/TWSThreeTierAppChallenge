@@ -1,4 +1,4 @@
-# #Three-Tier Web Application Deployment Documentation
+# #MERN Application Deployment
 
 ## Introduction 
 This documentation provides detailed steps for deploying a Three-Tier Web Application using ReactJS, NodeJS, and MongoDB on AWS EKS (Elastic Kubernetes Service) for the #TWSThreeTierAppChallenge. It includes setting up an EKS cluster, using private ECR repositories for image management, and employing AWS CLI and Helm for infrastructure management.
