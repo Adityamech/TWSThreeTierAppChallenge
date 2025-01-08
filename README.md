@@ -124,6 +124,9 @@ echo "admin" | base64 --encode
 echo "cGFzc3dvcmQxMjM=" | base64 --decode
 ```
 
+#### ***Using the AWS CLI, I provisioned an EKS cluster and deployed the application by configuring pods, services, and deployments.***
+#### ***The application communicates using specific ports: the frontend on port 3000, backend on port 8000, and MongoDB on port 27017.***
+
 ### Step 9: Install AWS Load Balancer
 ``` shell
 curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam-policy.json
