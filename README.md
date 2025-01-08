@@ -100,7 +100,7 @@ kubectl get nodes
 ```
 
 ### Step 8: Run Manifests
-#### In the Manifest folder, create .yaml manifest files such as the Deployment, Service, Secret, Persistent Volume (PV), Persistent Volume Claim (PVC), and Ingress files for the Frontend, Backend, and MongoDB components. Apply each manifest using kubectl.
+In the Manifest folder, create .yaml manifest files such as the Deployment, Service, Secret, Persistent Volume (PV), Persistent Volume Claim (PVC), and Ingress files for the Frontend, Backend, and MongoDB components. Apply each manifest using kubectl:
 ``` shell
 kubectl create namespace three-tier
 kubectl apply -f .
