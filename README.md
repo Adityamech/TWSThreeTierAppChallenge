@@ -1,7 +1,8 @@
-# #MERN Application Deployment
+# #MERN Application Deployment on EKS using AWS CLI
 
 ## Introduction 
-This documentation provides detailed steps for deploying a Three-Tier Web Application using ReactJS, NodeJS, and MongoDB on AWS EKS (Elastic Kubernetes Service) for the #TWSThreeTierAppChallenge. It includes setting up an EKS cluster, using public ECR repositories for image management, and employing AWS CLI and Helm for infrastructure management.
+This documentation provides the steps for deploying a three-tier MERN application (ReactJS, NodeJS, MongoDB) on AWS EKS (Elastic Kubernetes Service) using AWS CLI. 
+The goal was to containerize the MERN application and deploy it on EKS for scalability and high availability. For that, I used Docker for containerization, AWS CLI for managing AWS resources, and EKS for orchestrating containers.
 
 **Here is the Infrastructure**
 ![Alt text](Application-Code/Assets/Infrastructure1.png)
@@ -15,13 +16,14 @@ This documentation provides detailed steps for deploying a Three-Tier Web Applic
 
 ## Deployment Highlights & Project Details
 **Infrastructure Setup:**
-- Configures IAM, EC2, ECR, and EKS for secure and scalable hosting.
-  
-**Docker Images:**
-- Builds and pushes frontend and backend images to AWS ECR.
-  
-**Cluster & Networking:**
-- Creates a three-tier cluster with Kubernetes manifest files and deploys AWS Load Balancer Controller.
+- Configured IAM roles, EC2 instances, Elastic Container Registry (ECR), and EKS for secure and scalable hosting.
+
+**Dockerization:**
+- Built and pushed the frontend and backend Docker images to AWS ECR.
+
+**Cluster and Networking:**
+- Deployed a three-tier Kubernetes cluster using manifest files.
+- Implemented AWS Load Balancer Controller for efficient routing and balancing traffic.
 
 
 
@@ -53,6 +55,7 @@ sudo chown $USER /var/run/docker.sock
 ```
 
 ### Step 4: Create Docker images on ECR
+I created Docker images for the frontend, backend, and MongoDB, and pushed them to Amazon Elastic Container Registry (ECR)
 For Frontend:
 ``` shell
 docker build -t three-tier-frontend .
