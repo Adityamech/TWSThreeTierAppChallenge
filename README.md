@@ -36,6 +36,8 @@ The goal was to containerize the MERN application and deploy it on EKS for scala
 - Launch an Ubuntu instance in the region `us-east-1`.
 - SSH into the instance from your local machine.
 
+#### Installing AWS CLI, Docker, kubectl, eksctl, and other dependencies: Run installation commands directly on the machine or EC2 instance where you'll be deploying the app. These installations are not part of the project code repository.
+
 ### Step 3: Install AWS CLI v2
 ``` shell
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -75,7 +77,6 @@ docker logs [CONTAINER ID]
 
 
 ### Step 5: Install kubectl
-#### Installing AWS CLI, Docker, kubectl, eksctl, and other dependencies: Run installation commands directly on the machine or EC2 instance where you'll be deploying the app. These installations are not part of the project code repository.
 
 ``` shell
 curl -o kubectl https://amazon-eks.s3.us-east-1.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
