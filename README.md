@@ -58,7 +58,8 @@ sudo chown $USER /var/run/docker.sock
 
 ### Step 4: Create Docker images on ECR
 **Created Docker images for the frontend, backend, and MongoDB, and pushed them to Amazon Elastic Container Registry (ECR).**
-For Frontend:
+
+**For Frontend:**
 ``` shell
 docker build -t three-tier-frontend .
 docker tag three-tier-frontend:latest public.ecr.aws/z4u5w8e4/three-tier-frontend:latest
@@ -66,7 +67,7 @@ docker push public.ecr.aws/z4u5w8e4/three-tier-frontend:latest
 docker run -d -p 3000:3000 three-tier-frontend:latest
 docker logs [CONTAINER ID]
 ```
-For Backend:
+**For Backend:**
 ``` shell
 docker build -t three-tier-backend .
 docker tag three-tier-backend:latest public.ecr.aws/z4u5w8e4/three-tier-backend:latest
